@@ -181,7 +181,7 @@ def mock_llm_provider_path(profile_name: str) -> str:
     Returns:
         str: Monkeypatch path for the LLM provider
     """
-    return "query_syn.legacy_query.llm_providers.GoogleProvider"
+    return "config.providers.registry.LLMFactory"  # Updated to use new provider system
 
 
 def create_profile_specific_test_data(profile_name: str, tmp_path) -> str:

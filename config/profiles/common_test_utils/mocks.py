@@ -6,10 +6,16 @@ of mock implementations across different profile tests.
 
 import json
 from typing import List
-from query_syn.legacy_query import LLMProvider
 
 
-class FakeLLMProvider(LLMProvider):
+class MockLLMProvider:
+    """Base class for mock LLM providers."""
+    
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+
+
+class FakeLLMProvider(MockLLMProvider):
     """Mock LLM provider that returns realistic query specifications.
     
     This provider returns a realistic JSON query specification that can be
@@ -39,7 +45,7 @@ class FakeLLMProvider(LLMProvider):
         })
 
 
-class FakeLLMProviderEmpty(LLMProvider):
+class FakeLLMProviderEmpty(MockLLMProvider):
     """Mock LLM provider that returns empty results.
     
     This provider is useful for testing scenarios where the LLM
@@ -62,7 +68,7 @@ class FakeLLMProviderEmpty(LLMProvider):
         return "{}"
 
 
-class FakeLLMProviderError(LLMProvider):
+class FakeLLMProviderError(MockLLMProvider):
     """Mock LLM provider that raises exceptions.
     
     This provider is useful for testing error handling scenarios

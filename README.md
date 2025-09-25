@@ -2,13 +2,62 @@
 
 A sophisticated, profile-agnostic query synthesis system that converts natural language questions into structured data queries using multiple synthesis methods including traditional JSON-based synthesis and LangChain-powered approaches.
 
+## 🧠 Core Engine Logic - The Brain of the System
+
+The **`query_syn/engine.py`** is the intelligent brain that orchestrates the entire query synthesis process. Here's how it works:
+
+### Intelligent Method Selection Algorithm
+
+The engine uses a **heuristic-based intelligent selection** system to automatically choose the optimal synthesis method:
+
+1. **Complex Query Detection**: Analyzes the natural language question for complexity indicators:
+   - **Complex queries** (containing "group by", "aggregate", "sum", "average", "mean", "count", "max", "min") → **Prefers LangChain methods**
+   - **Simple filtering queries** → **Prefers traditional JSON synthesis**
+
+2. **Method Priority Hierarchy**:
+   ```
+   Complex Query → LangChain Direct → LangChain Agent → Traditional (fallback)
+   Simple Query → Traditional → LangChain Direct → LangChain Agent (fallback)
+   ```
+
+3. **Performance-Based Learning**: Tracks success rates and execution times for each method:
+   - Maintains performance statistics for intelligent future selection
+   - Updates average execution times using moving averages
+   - Records success/failure counts for reliability assessment
+
+### Automatic Fallback Mechanism
+
+When a synthesis method fails, the engine automatically attempts fallback methods:
+- **Primary method fails** → Tries alternative methods in priority order
+- **All methods fail** → Returns structured error response with diagnostic information
+- **Graceful degradation** → System remains functional even with partial method availability
+
+### Multi-Method Synthesis Architecture
+
+The engine supports three distinct synthesis approaches:
+
+1. **Traditional JSON Synthesis**: 
+   - Converts natural language to structured query specifications
+   - Validates and executes via QueryExecutor
+   - Ideal for simple filtering and basic operations
+
+2. **LangChain Direct**: 
+   - Generates pandas code directly using LLM
+   - Executes code safely in controlled environment
+   - Optimal for complex aggregations and data transformations
+
+3. **LangChain Agent**: 
+   - Uses LangChain agents with tool access
+   - Provides reasoning capabilities and multi-step operations
+   - Best for complex analytical queries requiring multiple operations
+
 ## 🏗️ Architecture Overview
 
 The system is built with a modular, profile-agnostic architecture that allows seamless switching between different data profiles without code changes. The core design principles include:
 
 - **Profile Independence**: Each profile is self-contained and can be added/removed without affecting the system
 - **Provider Agnostic**: Supports multiple LLM providers (Google, OpenAI, Anthropic) through a unified interface
-- **Multiple Synthesis Methods**: Intelligent selection between traditional, LangChain direct, and LangChain agent approaches
+- **Intelligent Synthesis**: Automatic method selection with performance-based learning and fallback mechanisms
 - **Comprehensive Testing**: Profile-agnostic test utilities that work with any data profile
 
 ## 📊 System Architecture
@@ -214,8 +263,8 @@ ultra_plus_text2query/
 │       ├── registry.py             # LLM provider factory
 │       └── langchain_provider.py   # LangChain integration
 ├── query_syn/
-│   ├── engine.py                   # Main synthesis engine
-│   ├── synthesis/                  # Query synthesis methods
+│   ├── engine.py                   # Main synthesis engine with intelligent method selection
+│   ├── synthesis/                  # Query synthesis methods (Traditional, LangChain Direct, LangChain Agent)
 │   ├── execution/                  # Query execution
 │   ├── data/                       # Data management
 │   └── response/                   # Response building

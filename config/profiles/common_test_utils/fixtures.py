@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Generator, Tuple
 
 from config.settings import Config
-from query_syn.legacy_query import LLMProvider
+# Legacy LLMProvider import removed - use config.providers.registry.LLMFactory instead
 # Removed fridge-specific import - now using generic profile-based data generation
 from .mocks import FakeLLMProvider, FakeLLMProviderEmpty, FakeLLMProviderError
 from .config_helpers import create_profile_specific_test_data
