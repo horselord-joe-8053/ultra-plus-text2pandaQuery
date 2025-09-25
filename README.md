@@ -1,6 +1,6 @@
 # Ultra Plus Text2Query - Profile-Agnostic Query Synthesis System
 
-A sophisticated, profile-agnostic query synthesis system that converts natural language questions into structured data queries using multiple synthesis methods including traditional JSON-based synthesis and LangChain-powered approaches.
+A profile-agnostic query synthesis system that **converts natural language questions into structured data queries for Panda Dataframes** using multiple synthesis methods including traditional JSON-based synthesis and LangChain-powered approaches.
 
 ## 🧠 Core Engine Logic - The Brain of the System
 
